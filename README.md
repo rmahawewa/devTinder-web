@@ -12,6 +12,10 @@
 - Create a footer
 - Create a login page
 
+- Install axios
+- CORS - install cors in backend => add middleware to with configurations: origin, credentials: true
+- Whenever you're making API call so pass axios => { withCredentials: true }
+
 Body
 NavBar
 Route=/ => Feed
