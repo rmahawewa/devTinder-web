@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
 	const [emailId, setEmailId] = useState("raini@yahoo.com");
 	const [password, setPassword] = useState("Raini@123");
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleLogin = async () => {
 		axios
 			.post(
-				"http://localhost:7777/login",
+				BASE_URL + "/login",
 				{
 					emailId: emailId,
 					password: password,
@@ -16,7 +22,9 @@ const Login = () => {
 				{ withCredentials: true }
 			)
 			.then((response) => {
-				console.log(response.data);
+				// console.log(response.data.data);
+				dispatch(addUser(response.data.data));
+				return navigate("/");
 			})
 			.catch((err) => {
 				console.log("Error fetchning data: " + err.message);
@@ -25,14 +33,6 @@ const Login = () => {
 
 	return (
 		<>
-			{/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
 			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<img
