@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
 	const [emailId, setEmailId] = useState("raini@yahoo.com");
 	const [password, setPassword] = useState("Raini@123");
+	const [error, setError] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -27,7 +28,8 @@ const Login = () => {
 				return navigate("/");
 			})
 			.catch((err) => {
-				console.log("Error fetchning data: " + err.message);
+				setError(err?.response?.data || "Something went wrong");
+				console.log("Error fetchning data: " + err);
 			});
 	};
 
@@ -98,7 +100,7 @@ const Login = () => {
 							/>
 						</div>
 					</div>
-
+					<p className="text-red-500">{error}</p>
 					<div>
 						<button
 							type="button"
