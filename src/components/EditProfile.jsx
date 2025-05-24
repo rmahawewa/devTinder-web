@@ -14,6 +14,7 @@ function EditProfile({ user }) {
 	const [about, setAbout] = useState(user.about);
 	const [error, setError] = useState("");
 	const [showToast, setShowToast] = useState(false);
+	const [showDropDownContent, setShowDropDownContent] = useState(false);
 	const dispatch = useDispatch();
 
 	const saveProfile = async () => {
@@ -124,6 +125,40 @@ function EditProfile({ user }) {
 								autoComplete="current-password"
 								className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
 							/>
+						</div>
+						<div>
+							<details
+								className="dropdown"
+								onClick={(e) => {
+									!showDropDownContent && setShowDropDownContent(true);
+									console.log(showDropDownContent);
+								}}
+							>
+								<summary className="btn m-1">{gender}</summary>
+								{showDropDownContent && (
+									<ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+										<div
+											onClick={(e) => {
+												setGender(e.target.innerText);
+												// console.log(showDropDownContent);
+												setShowDropDownContent(false);
+												// console.log(showDropDownContent);
+												e.stopPropagation();
+											}}
+										>
+											<li>
+												<a>female</a>
+											</li>
+											<li>
+												<a>male</a>
+											</li>
+											<li>
+												<a>other</a>
+											</li>
+										</div>
+									</ul>
+								)}
+							</details>
 						</div>
 					</div>
 					<div>
