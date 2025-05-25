@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import DropdownComponent from "./DropdownComponent";
 
 function EditProfile({ user }) {
 	const [firstName, setFirstName] = useState(user.firstName);
@@ -16,6 +17,10 @@ function EditProfile({ user }) {
 	const [showToast, setShowToast] = useState(false);
 	const [showDropDownContent, setShowDropDownContent] = useState(false);
 	const dispatch = useDispatch();
+
+	const updateGender = (value) => {
+		setGender(value);
+	};
 
 	const saveProfile = async () => {
 		setError("");
@@ -114,51 +119,8 @@ function EditProfile({ user }) {
 								Gender
 							</label>
 						</div>
-						<div className="mt-2">
-							<input
-								id="password"
-								name="password"
-								type="text"
-								value={gender}
-								onChange={(e) => setGender(e.target.value)}
-								required
-								autoComplete="current-password"
-								className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-							/>
-						</div>
 						<div>
-							<details
-								className="dropdown"
-								onClick={(e) => {
-									!showDropDownContent && setShowDropDownContent(true);
-									console.log(showDropDownContent);
-								}}
-							>
-								<summary className="btn m-1">{gender}</summary>
-								{showDropDownContent && (
-									<ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-										<div
-											onClick={(e) => {
-												setGender(e.target.innerText);
-												// console.log(showDropDownContent);
-												setShowDropDownContent(false);
-												// console.log(showDropDownContent);
-												e.stopPropagation();
-											}}
-										>
-											<li>
-												<a>female</a>
-											</li>
-											<li>
-												<a>male</a>
-											</li>
-											<li>
-												<a>other</a>
-											</li>
-										</div>
-									</ul>
-								)}
-							</details>
+							<DropdownComponent updateGender={updateGender} />
 						</div>
 					</div>
 					<div>
