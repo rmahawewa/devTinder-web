@@ -33,12 +33,17 @@
 - New Page - See all my connections
 - New Page - See all my connection requests
 - Feature - Accept/Reject Connection Request
-
-Remaining:
-
 - Send/ignore user cards from feed
 - Signup New User
 - E2E Testing
+
+# Deployment
+
+- Signup on AWS
+- Launch instance
+- chmod 400 <secret>.pem
+- ssh -i "devTinder-secret.pem" ubuntu@ec2-13-60-204-43.eu-north-1.compute.amazonaws.com
+- install the same app node version on the server
 
 Body
 NavBar
