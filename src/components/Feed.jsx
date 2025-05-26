@@ -25,6 +25,10 @@ function Feed() {
 		getFeed();
 	}, []);
 
+	if (!feedData) return;
+	if (feedData.length === 0)
+		return <h1 className="flex justify-center my-10">Feed is empty</h1>;
+
 	return (
 		feedData && (
 			<div className="flex justify-center my-10">

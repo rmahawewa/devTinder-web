@@ -30,8 +30,15 @@
 - Build the user card on feed
 - Edit Profile Feature
 - Show Toast Message on save of profile
-- See all my connections
--
+- New Page - See all my connections
+- New Page - See all my connection requests
+- Feature - Accept/Reject Connection Request
+
+Remaining:
+
+- Send/ignore user cards from feed
+- Signup New User
+- E2E Testing
 
 Body
 NavBar
