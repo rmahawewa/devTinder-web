@@ -44,6 +44,74 @@
 - chmod 400 <secret>.pem
 - ssh -i "devTinder-secret.pem" ubuntu@ec2-13-60-204-43.eu-north-1.compute.amazonaws.com
 - install the same app node version on the server
+- git clone apps on server
+- Frontend
+
+  - cd <project folder>
+  - install dependencies: npm install
+  - npm run build
+  - Install nginx
+    - sudo apt update
+    - sudo apt install nginx
+  - Start nginx
+    - sudo systemctl start nginx
+    - sudo systemctl enable nginx
+  - copy code from dist(build files) to /var/www/html/ -> (nginx http server)
+    - cd devTinder-web
+    - sudo scp -r dist/\* /var/www/html/
+    - enable port :80 of your instance => instances -> security group -> Inbound rules -> add inbound rule
+
+- Backend
+
+  - cd <project folder>
+  - install dependencies: npm install
+  - updated DB password
+  - allowed ec2 instance public IP on mongodb server
+  - installed pm2: npm install pm2 -g
+  - pm2 start npm -- start
+  - logs: pm2 logs
+  - clear pm2 logs: pm2 flush <process-name>
+  - pm2 list, pm2 stop <process-name>, pm2 delete <process-name>
+  - reassign the process name: pm2 start npm --name "devtinderbackend" -- start
+  - nginx config: edit in: /etc/nginx/sites-available/default
+  - restart nginx: sudo systemctl restart nginx
+
+  Frontend = http://13.60.204.43:80/
+  Backend = http://13.60.204.43:7777/
+
+  Frontend = devtinder.com
+  Backend = devtinder.com:7777 => devtiner.com/api
+
+  nginx config: edit in: /etc/nginx/sites-available/default
+
+  server_name 13.60.204.43;
+
+  # Proxy requests for the /api path to the Node.js application
+
+      location /api {
+          # The address of your Node.js application
+          proxy_pass http://127.0.0.1:7777;
+
+          # These headers are important for the backend application to correctly identify the client and original request details
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+
+          # Optional: Adjust timeouts if your API calls are long-running
+          proxy_connect_timeout 60s;
+          proxy_send_timeout 60s;
+          proxy_read_timeout 60s;
+
+          # Optional: If you need to handle websockets
+          # proxy_http_version 1.1;
+          # proxy_set_header Upgrade $http_upgrade;
+          # proxy_set_header Connection "upgrade";
+      }
+
+  restart nginx: sudo systemctl restart nginx
+
+- modify the base url in front end project to '/api'
 
 Body
 NavBar
