@@ -113,6 +113,25 @@
 
 - modify the base url in front end project to '/api'
 
+# Adding a custom Domain name
+
+- purchased domain name from godaddy
+- signup on cloudflare and add a new domain name
+- change the nameservers on godaddy and point it to cloudflare
+- wait for sometime till your nameservers are updated
+- DNS record: A -> devtinder.in 13.60.204.43
+- Enable SSL for website
+
+# Sending Emails via SES
+
+- Create a IAM user
+- Give Access to AmazonSESFullAccess
+- Amazon SES: Create an Identity
+- Verify your domain name
+- Verify an email address
+- Install AWS SDK = v3
+  - Code example: https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/ses#code-examples
+
 Body
 NavBar
 Route=/ => Feed
