@@ -128,9 +128,28 @@
 - Give Access to AmazonSESFullAccess
 - Amazon SES: Create an Identity
 - Verify your domain name
-- Verify an email address
+- Verify an email address identity
 - Install AWS SDK = v3
   - Code example: https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/ses#code-examples
+- Setup SesClient
+- Access Credentials should be created in IAm under SecurityCredentials Tab
+- Add the credentials to the env file
+- Write code for SESClient
+- Write code for Sending email address
+- Make the email dynamic by passing more params to the run function
+
+# Cron Jobs
+
+- install the npm package: node-cron -> npm i node-cron
+- Learning about cron expressions syntax - crontab.guru
+- create a file in utils in server code called cronjob.js
+- Schedule an connection request reminder email for each day morning
+  - date-fns
+  - Find all the unique email Id who have got connection Request in previous day
+  - Send Email
+  - Explore queue mechanism to send bulk emails: bee-queue and bull npm packages
+  - Amazon SES Bulk Emails
+  - Make send Email function dynamic
 
 Body
 NavBar
