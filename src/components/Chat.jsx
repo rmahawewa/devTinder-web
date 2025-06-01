@@ -39,6 +39,8 @@ function Chat() {
 			targetUserId,
 		});
 
+		socket.on("messageReceived", {});
+
 		return () => {
 			socket.disconnect();
 		};
