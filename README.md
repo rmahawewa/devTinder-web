@@ -157,3 +157,9 @@ Route=/ => Feed
 Route=/login => Login
 Route=/connections => Connections
 Route=/profile => Profile
+
+# Real Time Chat using Websocket(socket.io)
+
+- Build the UI for a chat window on /chat/:targetUserID
+- Setup socket.io in backend
+- npm i socket.io
