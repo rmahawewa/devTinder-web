@@ -161,5 +161,6 @@ Route=/profile => Profile
 # Real Time Chat using Websocket(socket.io)
 
 - Build the UI for a chat window on /chat/:targetUserID
+- create server from http module in backend
 - Setup socket.io in backend
 - npm i socket.io

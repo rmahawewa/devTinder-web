@@ -12,7 +12,7 @@ function Chat() {
 	const user = useSelector((store) => store.user);
 	const [newMessage, setNewMessage] = useState("");
 	const userId = user?._id;
-	const [messages, setMessages] = useState([{ text: "Hello World" }]);
+	const [messages, setMessages] = useState([]);
 	const getTargetUserName = async () => {
 		const targetUserInfo = await axios.get(
 			BASE_URL + "/chatUser/" + targetUserId,
@@ -24,6 +24,7 @@ function Chat() {
 			targetUserInfo.data.firstName + " " + targetUserInfo.data.lastName;
 		setTargetUserName(targetUserName);
 	};
+
 	useEffect(() => {
 		getTargetUserName();
 	}, [targetUserId]);
@@ -39,7 +40,10 @@ function Chat() {
 			targetUserId,
 		});
 
-		socket.on("messageReceived", {});
+		socket.on("messageReceived", ({ firstName, text }) => {
+			console.log(firstName + " : " + text);
+			setMessages((messages) => [...messages, { firstName, text }]);
+		});
 
 		return () => {
 			socket.disconnect();
@@ -54,6 +58,7 @@ function Chat() {
 			targetUserId,
 			text: newMessage,
 		});
+		setNewMessage("");
 	};
 
 	return (
@@ -64,12 +69,15 @@ function Chat() {
 			</div>
 			<div className="flex-1 overflow-scroll p-5 rounded">
 				{/* display messages */}
-				{messages.map((messages, index) => {
+				{messages.map((message, index) => {
 					return (
 						<div key={index} className="chat chat-start">
-							<div className="chat-bubble chat-bubble-secondary">
-								{messages.text}
+							<div className="chat-header">
+								{message.firstName}
+								<time className="text-xs opacity-50">2 hours ago</time>
 							</div>
+							<div className="chat-bubble">{message.text}</div>
+							<div className="chat-footer opacity-50">Seen</div>
 						</div>
 					);
 				})}
