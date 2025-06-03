@@ -164,3 +164,12 @@ Route=/profile => Profile
 - create server from http module in backend
 - Setup socket.io in backend
 - npm i socket.io
+- Setup frontend socket.io-client
+- Initialise the chat
+- createSocketConnection
+- Listen to events
+- Homework,
+  - Improve the UI
+  - Fix security bug
+    - auth in web sockets
+    - Can I send messages to a person how is not my friend

@@ -13,16 +13,48 @@ function Chat() {
 	const [newMessage, setNewMessage] = useState("");
 	const userId = user?._id;
 	const [messages, setMessages] = useState([]);
-	const getTargetUserName = async () => {
-		const targetUserInfo = await axios.get(
-			BASE_URL + "/chatUser/" + targetUserId,
-			{
+
+	const fetchChatMessages = async () => {
+		try {
+			const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
 				withCredentials: true,
-			}
-		);
-		const targetUserName =
-			targetUserInfo.data.firstName + " " + targetUserInfo.data.lastName;
-		setTargetUserName(targetUserName);
+			});
+			console.log(chat.data.messages);
+			const chatMessages = chat?.data?.messages.map((msg) => {
+				const { createdAt, senderId, text } = msg;
+				return {
+					senderId: senderId?._id,
+					firstName: senderId?.firstName,
+					lastName: senderId?.lastName,
+					text,
+					createdAt,
+				};
+			});
+			setMessages(chatMessages);
+			console.log(messages);
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
+	useEffect(() => {
+		fetchChatMessages();
+	}, []);
+
+	const getTargetUserName = async () => {
+		try {
+			const targetUserInfo = await axios.get(
+				BASE_URL + "/chatUser/" + targetUserId,
+				{
+					withCredentials: true,
+				}
+			);
+			const targetUserName =
+				targetUserInfo.data.firstName + " " + targetUserInfo.data.lastName;
+			setTargetUserName(targetUserName);
+		} catch (err) {
+			console.error(err.message);
+		}
 	};
 
 	useEffect(() => {
@@ -40,9 +72,12 @@ function Chat() {
 			targetUserId,
 		});
 
-		socket.on("messageReceived", ({ firstName, text }) => {
+		socket.on("messageReceived", ({ senderId, firstName, lastName, text }) => {
 			console.log(firstName + " : " + text);
-			setMessages((messages) => [...messages, { firstName, text }]);
+			setMessages((messages) => [
+				...messages,
+				{ senderId, firstName, lastName, text },
+			]);
 		});
 
 		return () => {
@@ -54,6 +89,7 @@ function Chat() {
 		const socket = createSocketConnection();
 		socket.emit("sendMessage", {
 			firstName: user.firstName,
+			lastName: user.lastName,
 			userId,
 			targetUserId,
 			text: newMessage,
@@ -70,11 +106,14 @@ function Chat() {
 			<div className="flex-1 overflow-scroll p-5 rounded">
 				{/* display messages */}
 				{messages.map((message, index) => {
+					let direction =
+						message.senderId === user._id ? "chat-end" : "chat-start";
+					console.log(message.senderId);
 					return (
-						<div key={index} className="chat chat-start">
+						<div key={index} className={"chat " + direction}>
 							<div className="chat-header">
-								{message.firstName}
-								<time className="text-xs opacity-50">2 hours ago</time>
+								{message.firstName} {message.lastName}
+								<time className="text-xs opacity-50">{message.createdAt}</time>
 							</div>
 							<div className="chat-bubble">{message.text}</div>
 							<div className="chat-footer opacity-50">Seen</div>
