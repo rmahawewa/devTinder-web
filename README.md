@@ -173,3 +173,8 @@ Route=/profile => Profile
   - Fix security bug
     - auth in web sockets
     - Can I send messages to a person how is not my friend
+  - Show green symbol when online - [last seen 3 hours ago]
+  - Limit messages when fetching from DB
+  - Project ideas:
+    - Tic tac toe game
+    - Chess game
