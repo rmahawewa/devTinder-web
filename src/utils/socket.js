@@ -8,11 +8,3 @@ export const createSocketConnection = () => {
 		return io("/", { path: "/api/socket.io" });
 	}
 };
-
-// import { io } from "socket.io-client";
-
-// const socket = io({
-// 	auth: {
-// 		token: "abcd",
-// 	},
-// });
